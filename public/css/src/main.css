@@ -1,8 +1,16 @@
 body {
    color: #333;
 }
+
 img#npiCoaster {
    position:absolute; 
    top:20%;
    left: 20%;
+   z-index: 1000;
+}
+
+#bgCanvas {
+   position: absolute;
+   top: 0;
+   left: 0;
 }

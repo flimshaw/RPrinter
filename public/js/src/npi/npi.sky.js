@@ -16,13 +16,7 @@ define( 'npi/sky',
 			{ 'src': 'images/common/generic_icon_red.png' }
 		    ],
 		    'graphMax': 0,
-		    'graphHeroPosition': 0,
-		    'graphPoints': [],
-		    'graphImages': {},
-		    'data': {},
-		    'userName': '',
-		    'currentSection': 'everyone',
-		    'graphOverallMax': 0
+		    'ctx': 0
 		},
 		'publicFn': {
 		    'init': function( options ) {
@@ -36,11 +30,19 @@ define( 'npi/sky',
 			canvasW = canvas.width;
 			canvasH = canvas.height;
 
-			if( canvas.getContext )
+			if( canvas.getContext('2d') )
 			{
-			    //setInterval( run , 33 );
+			    Sky.cfg.ctx = canvas.getContext('2d');
+			    setInterval( Sky.publicFn.run , 33 );
 			}
-			
+		    },
+		    'run': function() {
+			var lg = Sky.cfg.ctx.createLinearGradient(0,0,0,canvas.height);
+			lg.addColorStop(0,'#007eff');
+			lg.addColorStop(.8, '#fda110');
+			lg.addColorStop(1, 'red');
+			Sky.cfg.ctx.fillStyle = lg;
+			Sky.cfg.ctx.fillRect(0, 0, canvas.width, canvas.height);
 		    }
 		},
 		'privateFn': {
