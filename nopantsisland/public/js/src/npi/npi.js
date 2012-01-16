@@ -1,4 +1,4 @@
-// FIXME -> this file should probably done without jquery and backbone, and all the intro code should be moved to it's own module
+// FIXME -> this file should probably done without jquery and backbone, and all the intro code should be moved to its own module
 define( 'npi', 
 	['underscore', 'npi/sky'],
 	function( _, sky ) {
@@ -20,4 +20,4 @@ define( 'npi',
 	    
 	    return NPI.publicFn;
 	}
-      );
+);
