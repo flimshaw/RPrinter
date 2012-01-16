@@ -16,7 +16,12 @@ define( 'npi/sky',
 			{ 'src': 'images/common/generic_icon_red.png' }
 		    ],
 		    'graphMax': 0,
-		    'ctx': 0
+		    'ctx': 0,
+		    'gradientValues': {
+			'red': 0,
+			'blue': 1,
+			'gold': 0
+		    }
 		},
 		'publicFn': {
 		    'init': function( options ) {
@@ -29,7 +34,6 @@ define( 'npi/sky',
 			canvas.height = document.height;
 			canvasW = canvas.width;
 			canvasH = canvas.height;
-
 			if( canvas.getContext('2d') )
 			{
 			    Sky.cfg.ctx = canvas.getContext('2d');
@@ -37,9 +41,21 @@ define( 'npi/sky',
 			}
 		    },
 		    'run': function() {
+			if(Sky.cfg.gradientValues.gold < 1) {
+			    Sky.cfg.gradientValues.gold += .01;
+			} else {
+			    Sky.cfg.gradientValues.gold = 1;
+			    if(Sky.cfg.gradientValues.red < 1) {
+				Sky.cfg.gradientValues.red += .01;
+			    } else {
+				Sky.cfg.gradientValues.red = 0;
+				Sky.cfg.gradientValues.gold = 0;
+			    }
+			}
 			var lg = Sky.cfg.ctx.createLinearGradient(0,0,0,canvas.height);
-			lg.addColorStop(0,'#007eff');
-			lg.addColorStop(.8, '#fda110');
+			lg.addColorStop(0,'#007eff'); // start with blue
+			lg.addColorStop(1 - Sky.cfg.gradientValues.gold + Sky.cfg.gradientValues.red, '#007eff'); // our blue's length is determined by this thing
+			lg.addColorStop(1 - Sky.cfg.gradientValues.red, '#fda110');
 			lg.addColorStop(1, 'red');
 			Sky.cfg.ctx.fillStyle = lg;
 			Sky.cfg.ctx.fillRect(0, 0, canvas.width, canvas.height);
