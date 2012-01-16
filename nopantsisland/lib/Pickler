@@ -1,6 +1,6 @@
 {
-        "jsDir": "public/js",
-        "cssDir": "public/css",
+        "jsDir": "../public/js",
+        "cssDir": "../public/css",
         "source_dir": "src",
         "compile_dir": "bin",
         "variables": {
