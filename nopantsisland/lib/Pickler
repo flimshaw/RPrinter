@@ -10,6 +10,7 @@
                 "nopantsisland.js": [
                         "vendor/require.js",
                         "vendor/underscore.js",
+			"vendor/kapi.min.js",
                         "npi/npi.js",
 			"npi/npi.sky.js",
                         "app.js"
