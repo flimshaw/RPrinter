@@ -41,17 +41,23 @@ define( 'npi/sky',
 			}
 		    },
 		    'run': function() {
-			if(Sky.cfg.gradientValues.gold < 1) {
-			    Sky.cfg.gradientValues.gold += .01;
+			var colors = Sky.cfg.gradientValues;
+			
+			if(colors.gold < 1) {
+			    colors.gold += .01;
 			} else {
-			    Sky.cfg.gradientValues.gold = 1;
-			    if(Sky.cfg.gradientValues.red < 1) {
-				Sky.cfg.gradientValues.red += .01;
+			    colors.gold = 1;
+			    if(colors.red < 1) {
+				colors.red += .01;
 			    } else {
-				Sky.cfg.gradientValues.red = 0;
-				Sky.cfg.gradientValues.gold = 0;
+				colors.red = 0;
+				colors.gold = 0;
 			    }
 			}
+
+			if(colors.gold > 1) colors.gold = 1;
+			if(colors.red > 1) colors.red = 1;
+			
 			var lg = Sky.cfg.ctx.createLinearGradient(0,0,0,canvas.height);
 			lg.addColorStop(0,'#007eff'); // start with blue
 			lg.addColorStop(1 - Sky.cfg.gradientValues.gold + Sky.cfg.gradientValues.red, '#007eff'); // our blue's length is determined by this thing
