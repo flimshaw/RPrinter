@@ -1,4 +1,9 @@
 Nopantsisland::Application.routes.draw do
+  
+  match '/entities/:gather' => 'entities#gather'
+  resources :entities
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
