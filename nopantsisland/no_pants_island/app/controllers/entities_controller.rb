@@ -1,4 +1,15 @@
 class EntitiesController < ApplicationController
+
+  def list_all
+    @entities = Entity.all
+
+    respond_to do |format|
+      format.html # list_all.html.erb
+      format.json { render :json => @entities }
+    end
+  end
+
+
   # GET /entities
   # GET /entities.json
   def index
