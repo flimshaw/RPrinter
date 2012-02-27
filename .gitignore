@@ -1,5 +1,4 @@
 *~
 *#*#*
 .#*
-public/css/bin
-public/js/bin
+*.pyc
