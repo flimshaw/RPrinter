@@ -18,4 +18,4 @@ class Entity(models.Model):
 class IrcLog(Entity):
     # create a custom thingy here
     class MongoMeta:
-        unique_together = (('created_on', 'data'))
+        #unique_together = (('created_on', 'data'))
