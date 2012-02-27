@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from nopantsisland.entities.models import User, Entity
 import re
+from datetime import datetime
 import time
 
 class Command(BaseCommand):
@@ -8,26 +9,33 @@ class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
 
     logfile = '/Users/charlie/irc.log'
+    
+    # save some cycles and compile the regex only once
+    p = re.compile(r'^\[([^\]]*)\] (\S+) (.*)')
 
     def handle(self, *args, **options):
         f = open(self.logfile, 'r')
         x = []
 
         for line in f:
-            l = self.parse_line(line)
-            x.append(l)
-
-        for j in x:
-            print j
+            data = self.parse_line(line)
+            data_packet = {'type': data['type'], 'message': data['msg']}
+            if data['type'] == 'message':
+                data_packet['nick'] = data['nick']
+            x = Entity(created_on=data['time'], entity_type="irc", data=data_packet).save();
+            print "Saved %s" % data['type']
 
     def parse_line(self, line):
-        # play by play:     datestamp  nick/* msg
-        p = re.compile(r'^\[([^\]]*)\] (\S+) (.*)')
-        m = p.match(line)
+
+        # match our line
+        m = self.p.match(line)
+
+        # instantiate a placeholder data packet
         data = {}
-        data['time'] = time.strptime(m.group(1), "%Y-%m-%d %H:%M:%S %Z")
-        data['msg'] = m.group(3)
+        data['time'] = datetime.strptime(m.group(1), "%Y-%m-%d %H:%M:%S %Z") # parse our timestamp
+        data['msg'] = m.group(3) # our message
         
+        # and determine whether this is a command message or a real message
         if m.group(2) == "*":
             data['type'] = 'notice'
         else:
