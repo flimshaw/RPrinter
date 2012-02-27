@@ -13,9 +13,3 @@ class Entity(models.Model):
     created_on = models.DateTimeField()
     entity_type = models.CharField(max_length=255)
     data = DictField()
-
-# IRC Log model.  Contains checks to prevent duplicates and some custom formatting for the timeline display
-class IrcLog(Entity):
-    # create a custom thingy here
-    class MongoMeta:
-        #unique_together = (('created_on', 'data'))
