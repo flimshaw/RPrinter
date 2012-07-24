@@ -39,6 +39,8 @@ class RPrinter:
         self.textwrap.width = CHAR_WIDTH
         self.textwrap.break_on_hyphens = True
 
+        self.ser.write("\n\n")
+
 
     def toggleMode(self, mode):
         self.printSettings = self.printSettings ^ mode
@@ -57,5 +59,5 @@ class RPrinter:
         self.ser.write(msg)
 
     def println(self, msg):
-        self.ser.write(msg + "\n")
-        time.sleep(.1)
+        self.printChar(msg + "\n")
+        time.sleep(.5)

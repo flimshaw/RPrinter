@@ -6,14 +6,18 @@ printer = rp.RPrinter()
 
 print "TwitterFeed!"
 
-stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", follow=[713566676])
+#stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", follow=[713566676])
+stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["columbo"])
 
 for tweet in stream:
     print "Tweet Received!"
-    tweetDate = time.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y")
-    printer.printChar(time.strftime("%b.%d %H:%M:%S\n\n", tweetDate))
-    printer.toggleMode(8)
-    printer.println("@%s: " % (tweet['user']['screen_name']))
-    printer.toggleMode(8)
-    printer.printStr(tweet['text'])
-    printer.println("\n\n\n\n")
+    print tweet
+    if 'user' in tweet:
+        tweetDate = time.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y")
+        printer.println(time.strftime("%b.%d %H:%M:%S", tweetDate))
+        printer.toggleMode(8)
+        printer.printChar("@%s:\n" % (tweet['user']['screen_name'].encode("ascii", "ignore")))
+        printer.toggleMode(8)
+        printer.printChar(tweet['text'].encode("ascii", "ignore"))
+        printer.printChar("\n\n")
+        time.sleep(1)
