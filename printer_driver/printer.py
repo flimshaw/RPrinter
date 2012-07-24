@@ -12,7 +12,7 @@ EMPHASIZE = 8
 DOUBLEHEIGHT = 16
 DOUBLEWIDTH = 32
 
-CHAR_WIDTH = 32
+CHAR_WIDTH = 30
 
 class RPrinter:
 
@@ -29,11 +29,6 @@ class RPrinter:
             exit()
 
         self.init()
-        self.toggleMode(DOUBLEHEIGHT)
-        self.ser.write("\nNo Pants Island!\n")
-        self.toggleMode(DOUBLEHEIGHT)
-        self.ser.write("Version " + VERSION + "\n\n")
-        self.printStr("Cras mattis consectetur purus sit amet fermentum. Nulla vitae elit libero, a pharetra augue. Cras mattis consectetur purus sit amet fermentum. Nulla vitae elit libero, a pharetra augue.")
 
     def init(self):
         
@@ -57,6 +52,9 @@ class RPrinter:
 
         for line in bufferedText:
             self.println(line)
+
+    def printChar(self, msg):
+        self.ser.write(msg)
 
     def println(self, msg):
         self.ser.write(msg + "\n")

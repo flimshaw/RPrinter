@@ -1,31 +1,19 @@
-from imaplib import *
-from email.Parser import Parser
-import datetime, time, email, email.Utils
-import re
- 
-print "Hello"
+import tweetstream
+import printer as rp
+import time
 
+printer = rp.RPrinter()
 
-# Connect to email server
-server = IMAP4_SSL("imap.gmail.com")
-server.login("rpi1@flimshaw.net", "NPInpi123")
-r = server.select("inbox")
- 
-# Find only new mail (i.e. new direct messages)
-r, data = server.uid('search', None, 'UnSeen')
+print "TwitterFeed!"
 
-print "Logged in"
+stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", follow=[713566676])
 
-# If there are new direct messages:
-if len(data[0]) > 0:
- 
-    p = Parser()
- 
-    # Loop through new emails
-    for uid in data[0].split():
- 
-        r, msg = server.uid('fetch', uid, '(RFC822)')
-        print msg[0][1]
-        
-# Logout of email server
-server.logout()
+for tweet in stream:
+    print "Tweet Received!"
+    tweetDate = time.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y")
+    printer.printChar(time.strftime("%b.%d %H:%M:%S\n\n", tweetDate))
+    printer.toggleMode(8)
+    printer.println("@%s: " % (tweet['user']['screen_name']))
+    printer.toggleMode(8)
+    printer.printStr(tweet['text'])
+    printer.println("\n\n\n\n")
