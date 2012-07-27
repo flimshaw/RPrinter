@@ -6,7 +6,6 @@ printer = rp.RPrinter()
 
 print "TwitterFeed!"
 
-#stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", follow=[713566676])
 stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["columbo"])
 
 for tweet in stream:
