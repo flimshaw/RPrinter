@@ -1,5 +1,5 @@
 import tweetstream
-import printer as rp
+import RPrinter.printer as rp
 import time
 
 printer = rp.RPrinter()
