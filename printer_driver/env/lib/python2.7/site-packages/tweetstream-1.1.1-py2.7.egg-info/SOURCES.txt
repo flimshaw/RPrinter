@@ -1,0 +1,12 @@
+README
+setup.cfg
+setup.py
+tweetstream/__init__.py
+tweetstream/deprecated.py
+tweetstream/streamclasses.py
+tweetstream.egg-info/PKG-INFO
+tweetstream.egg-info/SOURCES.txt
+tweetstream.egg-info/dependency_links.txt
+tweetstream.egg-info/not-zip-safe
+tweetstream.egg-info/requires.txt
+tweetstream.egg-info/top_level.txt
