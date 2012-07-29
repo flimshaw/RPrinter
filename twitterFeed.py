@@ -7,7 +7,7 @@ printer = rp.RPrinter()
 
 print "TwitterFeed!"
 
-stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["karaoke"])
+stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["hey"])
 
 template = """
 **{{ timestamp }}**

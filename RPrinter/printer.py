@@ -3,6 +3,7 @@ import serial
 import textwrap
 import markdown
 import time
+import re
 
 DEVICE = "/dev/ttyAMA0"
 SPEED = 19200
@@ -73,14 +74,11 @@ class RPrinter:
     def printStr(self, msg):
 
         html = markdown.markdown(msg)
-
-        print html
-
-        # break the text into an array of lines
-        #bufferedText = self.textwrap.wrap(msg)
-
-        #for line in bufferedText:
-        #    self.println(line)
+        p = re.compile(r'(</?[^>]+>)')
+        commandList = p.split(html)
+        for cmd in commandList:
+            if cmd != '' or cmd != '\n':
+                print cmd
 
     def printChar(self, msg):
         self.send(msg)
