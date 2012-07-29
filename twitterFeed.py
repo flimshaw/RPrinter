@@ -1,4 +1,5 @@
 import tweetstream
+import pystache
 import RPrinter.printer as rp
 import time
 
@@ -6,17 +7,25 @@ printer = rp.RPrinter()
 
 print "TwitterFeed!"
 
-stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["columbo"])
+stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["karaoke"])
+
+template = """
+**{{ timestamp }}**
+**{{ screen_name }}**: {{ tweet }}
+"""
 
 for tweet in stream:
-    print "Tweet Received!"
-    print tweet
     if 'user' in tweet:
+
+        # format date
         tweetDate = time.strptime(tweet['created_at'], "%a %b %d %H:%M:%S +0000 %Y")
-        printer.println(time.strftime("%b.%d %H:%M:%S", tweetDate))
-        printer.toggleMode(8)
-        printer.printChar("@%s:\n" % (tweet['user']['screen_name'].encode("ascii", "ignore")))
-        printer.toggleMode(8)
-        printer.printChar(tweet['text'].encode("ascii", "ignore"))
-        printer.printChar("\n\n")
-        time.sleep(1)
+        printDate = time.strftime("%b.%d %H:%M:%S", tweetDate)
+
+        # setup context
+        context = { 
+            'timestamp': printDate, 
+            'screen_name': tweet['user']['screen_name'].encode('ascii', 'ignore'),
+            'tweet': tweet['text'].encode('ascii', 'ignore')
+        }
+
+        printer.printStr(pystache.render(template, context))
