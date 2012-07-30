@@ -1,13 +1,15 @@
 import tweetstream
 import pystache
 import RPrinter.printer as rp
+import npi.Client as npi
 import time
 
 printer = rp.RPrinter()
 
-print "TwitterFeed!"
+c = npi.Client()
+c.connect()
 
-stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["hey"])
+stream = tweetstream.FilterStream("NPIDevice1", "NPInpi123", track=["columbo"])
 
 template = """
 **{{ timestamp }}**
