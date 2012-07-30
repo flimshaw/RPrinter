@@ -75,13 +75,12 @@ class RPrinter:
             print str(data)
 
     def setTypeMode(self, tag):
-        print 'th'
         if tag in self.printerStyles:
-            self.printSettings = self.printSettings ^ printerStyles[tag]
+            self.printSettings = self.printSettings ^ self.printerStyles[tag]
             if DEBUG == False:
                 self.send("\x1b\x21" + chr(self.printSettings))
             else:
-                print "Settings: " + chr(self.printSettings)
+                print "CMD: %s %s" % (tag, self.printSettings)
 
     # buffers the given string and prints it out to the printer
     def printStr(self, msg):
@@ -95,22 +94,16 @@ class RPrinter:
         except NoneType:
             raise
 
-        print commandList
-
         for cmd in commandList:
 
             if cmd == '':
                 continue
 
             if cmd[0] == "<" and cmd[-1] == ">":
-                print re.match(r'</?([^>]+)>', cmd).group()
-                #self.setTypeMode()
+                # extract the rich innards of our html tag
+                tagVal = re.match(r'</?([^>]+)>', cmd).group(1);
+
+                # pass it to our setTypeMode method
+                self.setTypeMode(tagVal);
             else:
-                print "cmd: " + cmd
-
-    def printChar(self, msg):
-        self.send(msg)
-
-    def println(self, msg):
-        self.printChar(msg + "\n")
-        time.sleep(.5)
+                self.send(cmd);
